@@ -35,7 +35,7 @@ jobs:
           python scraper/parse.py
           python scraper/generate_ics.py
 
-      - name: Debug: list files
+      - name: "Debug: list files"
         run: ls -R .
 
       - name: Commit updated ICS
