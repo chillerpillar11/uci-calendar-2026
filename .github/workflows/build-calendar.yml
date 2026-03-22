@@ -1,0 +1,36 @@
+name: Build UCI Calendar
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"   # jeden Montag 05:00
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r scraper/requirements.txt
+
+      - name: Run scraper
+        run: |
+          python scraper/scrape.py > scraper/raw.txt
+          python scraper/parse.py
+          python scraper/generate_ics.py
+
+      - name: Commit updated ICS
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "actions@github.com"
+          git add calendar/uci-2026.ics
+          git commit -m "Update ICS" || echo "No changes"
+          git push
