@@ -1,3 +1,9 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Your Name//UCI Calendar//EN
+X-WR-CALNAME:UCI Academic Calendar 2026
+X-WR-TIMEZONE:America/Los_Angeles
+
 from ics import Calendar, Event
 from datetime import datetime
 import json
