@@ -2,7 +2,7 @@ name: Build UCI Calendar
 
 on:
   schedule:
-    - cron: "0 5 * * 1"   # jeden Montag 05:00
+    - cron: "0 5 * * 1"
   workflow_dispatch:
 
 jobs:
