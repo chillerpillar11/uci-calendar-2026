@@ -21,16 +21,26 @@ jobs:
         run: |
           pip install -r scraper/requirements.txt
 
-      - name: Run scraper
+      - name: Ensure calendar folder exists
+        run: mkdir -p calendar
+
+      - name: Run pipeline (scrape → parse → ics)
         run: |
-          python scraper/scrape.py > scraper/raw.txt
+          python scraper/scrape.py
           python scraper/parse.py
           python scraper/generate_ics.py
 
+      - name: Debug: list files
+        run: ls -R .
+
       - name: Commit updated ICS
         run: |
-          git config user.name "GitHub Action"
-          git config user.email "actions@github.com"
-          git add calendar/uci-2026.ics
-          git commit -m "Update ICS" || echo "No changes"
-          git push
+          if [ -f calendar/uci-2026.ics ]; then
+            git config user.name "GitHub Action"
+            git config user.email "actions@github.com"
+            git add calendar/uci-2026.ics
+            git commit -m "Update ICS" || echo "No changes"
+            git push
+          else
+            echo "ICS file missing — skipping commit"
+            exit 1
