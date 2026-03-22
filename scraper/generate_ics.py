@@ -37,8 +37,8 @@ def save_ics(cal, path="calendar/uci-2026.ics"):
     header = (
         "BEGIN:VCALENDAR\n"
         "VERSION:2.0\n"
-        "PRODID:-//UCI Calendar//EN\n"
-        "X-WR-CALNAME:UCI Academic Calendar 2026\n"
+        "PRODID:-//Windhunde UCI Calendar 2026//EN\n"
+        "X-WR-CALNAME:Windhunde UCI Calendar 2026\n"
         "X-WR-TIMEZONE:America/Los_Angeles\n"
     )
 
