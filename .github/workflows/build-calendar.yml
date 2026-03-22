@@ -1,31 +1,12 @@
-name: Build UCI Calendar
+name: Test Workflow
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: pip install -r scraper/requirements.txt
-
-      - name: Run scrape.py
-        run: python scraper/scrape.py
-
-      - name: Run parse.py
-        run: python scraper/parse.py
-
-      - name: Run generate_ics.py
-        run: python scraper/generate_ics.py
-
-      - name: Debug: list files
-        run: ls -R .
+      - name: Hello
+        run: echo "Hello"
