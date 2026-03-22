@@ -56,9 +56,6 @@ def parse_line(line):
         "cancelled": cancelled
     }
 
-# -----------------------------
-# Hauptprogramm
-# -----------------------------
 if __name__ == "__main__":
     with open("scraper/raw.txt", "r", encoding="utf-8") as f:
         lines = f.read().splitlines()
