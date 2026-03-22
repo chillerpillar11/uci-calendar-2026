@@ -1,12 +1,14 @@
-name: Test Workflow
+name: Build UCI Calendar
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say hello
-        run: echo "Hello from GitHub Actions"
+      - uses: actions/checkout@v3
+
+      - name: Debug
+        run: echo "Workflow läuft"
