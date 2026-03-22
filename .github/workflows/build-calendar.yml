@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scraper/requirements.txt
 
-      - name: Run pipeline (scrape → parse → ics)
+      - name: Run pipeline (scrape -> parse -> ics)
         run: |
           python scraper/scrape.py
           python scraper/parse.py
