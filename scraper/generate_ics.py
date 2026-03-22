@@ -1,9 +1,3 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Your Name//UCI Calendar//EN
-X-WR-CALNAME:UCI Academic Calendar 2026
-X-WR-TIMEZONE:America/Los_Angeles
-
 from ics import Calendar, Event
 from datetime import datetime
 import json
@@ -36,8 +30,23 @@ def build_ics(events):
     return cal
 
 def save_ics(cal, path="calendar/uci-2026.ics"):
+    # ICS aus der Library generieren
+    ics_text = cal.serialize()
+
+    # Unser eigener Header, damit iOS den Kalendernamen übernimmt
+    header = (
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "PRODID:-//UCI Calendar//EN\n"
+        "X-WR-CALNAME:UCI Academic Calendar 2026\n"
+        "X-WR-TIMEZONE:America/Los_Angeles\n"
+    )
+
+    # Das von der Library erzeugte BEGIN:VCALENDAR ersetzen
+    ics_text = ics_text.replace("BEGIN:VCALENDAR", header, 1)
+
     with open(path, "w", encoding="utf-8") as f:
-        f.writelines(cal)
+        f.write(ics_text)
 
 if __name__ == "__main__":
     with open("scraper/events.json", "r", encoding="utf-8") as f:
