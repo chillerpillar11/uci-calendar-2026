@@ -44,3 +44,4 @@ jobs:
           else
             echo "ICS file missing — skipping commit"
             exit 1
+          fi
