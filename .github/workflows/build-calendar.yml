@@ -18,11 +18,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r scraper/requirements.txt
 
-      - name: Run pipeline (scrape -> parse -> ics)
-        run: |
-          python scraper/scrape.py
-          python scraper/parse.py
-          python scraper/generate_ics.py
+      - name: Run scrape.py
+        run: python scraper/scrape.py
+
+      - name: Run parse.py
+        run: python scraper/parse.py
+
+      - name: Run generate_ics.py
+        run: python scraper/generate_ics.py
 
       - name: Debug: list files
         run: ls -R .
