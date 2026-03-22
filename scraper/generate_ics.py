@@ -27,6 +27,6 @@ def build_ics(events):
 
     return cal
 
-def save_ics(cal, path="../calendar/uci-2026.ics"):
+def save_ics(cal, path="calendar/uci-2026.ics"):
     with open(path, "w", encoding="utf-8") as f:
         f.writelines(cal)
