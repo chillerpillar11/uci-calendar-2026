@@ -1,12 +1,49 @@
-name: Test Workflow
+name: Build UCI Calendar
 
 on:
+  schedule:
+    - cron: "0 5 * * 1"
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Hello
-        run: echo "Hello"
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
+
+      - name: Ensure calendar folder exists
+        run: mkdir -p calendar
+
+      - name: Run scrape.py
+        run: python scraper/scrape.py
+
+      - name: Run parse.py
+        run: python scraper/parse.py
+
+      - name: Run generate_ics.py
+        run: python scraper/generate_ics.py
+
+      - name: Debug: list files
+        run: ls -R .
+
+      - name: Commit updated ICS
+        run: |
+          if [ -f calendar/uci-2026.ics ]; then
+            git config user.name "GitHub Action"
+            git config user.email "actions@github.com"
+            git add calendar/uci-2026.ics
+            git commit -m "Update ICS" || echo "No changes"
+            git push
+          else
+            echo "ICS file missing — skipping commit"
+            exit 1
+          fi
