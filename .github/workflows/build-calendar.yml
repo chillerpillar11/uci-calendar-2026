@@ -34,7 +34,3 @@ jobs:
 
       - name: Debug: list files
         run: ls -R .
-
-      - name: Commit updated ICS
-        shell: bash
-        run: if [ -f calendar/uci-2026.ics ]; then git config user.name "GitHub Action"; git config user.email "actions@github.com"; git add calendar/uci-2026.ics; git commit -m "Update ICS" || echo "No changes"; git push; else echo "ICS file missing — skipping commit"; exit 1; fi
