@@ -1,8 +1,10 @@
 from ics import Calendar, Event
 from datetime import datetime
+import json
 
 def convert_date(d):
-    return datetime.strptime(d, "%d.%m.")
+    # Jahr fix auf 2026 setzen
+    return datetime.strptime(d + "2026", "%d.%m.%Y")
 
 def build_ics(events):
     cal = Calendar()
@@ -13,9 +15,9 @@ def build_ics(events):
         ev.begin = convert_date(e["start"])
         ev.make_all_day()
 
-        # Enddatum +1 Tag (ICS‑Standard)
         end = convert_date(e["end"])
-        ev.end = end.replace(hour=0) 
+        # Enddatum +1 Tag (ICS-Standard: exklusiv)
+        ev.end = end.replace(hour=0)
 
         ev.description = (
             f"Sieger 2025: {e['winner']}\n"
@@ -30,3 +32,11 @@ def build_ics(events):
 def save_ics(cal, path="calendar/uci-2026.ics"):
     with open(path, "w", encoding="utf-8") as f:
         f.writelines(cal)
+
+if __name__ == "__main__":
+    with open("scraper/events.json", "r", encoding="utf-8") as f:
+        events = json.load(f)
+
+    cal = build_ics(events)
+    save_ics(cal)
+    print(f"Saved ICS with {len(events)} events to calendar/uci-2026.ics")
