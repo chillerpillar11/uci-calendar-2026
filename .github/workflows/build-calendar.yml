@@ -15,5 +15,5 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Debug
-        run: python --version
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
