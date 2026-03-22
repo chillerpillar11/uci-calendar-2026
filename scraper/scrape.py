@@ -11,11 +11,18 @@ def fetch_raw_html():
 def extract_rows(html):
     soup = BeautifulSoup(html, "html.parser")
     pre = soup.find("pre")
+    if not pre:
+        raise ValueError("Kein <pre>-Block auf der Seite gefunden!")
     lines = pre.text.split("\n")
     return lines
 
 if __name__ == "__main__":
     html = fetch_raw_html()
     lines = extract_rows(html)
-    for l in lines[:20]:
-        print(l)
+
+    # Ganze Seite speichern
+    with open("scraper/raw.txt", "w", encoding="utf-8") as f:
+        for line in lines:
+            f.write(line + "\n")
+
+    print(f"Saved {len(lines)} lines to raw.txt")
