@@ -1,7 +1,5 @@
 import re
-from datetime import datetime
-
-DATE_PATTERN = r"(\d{2}\.\d{2}\.)-(\d{2}\.\d{2}\.)|(\d{2}\.\d{2}\.)"
+import json
 
 def parse_line(line):
     # abgesagte Rennen markieren
@@ -24,6 +22,9 @@ def parse_line(line):
 
     # restliche Felder extrahieren
     fields = line[date_match.end():].split()
+    if len(fields) < 3:
+        return None
+
     name = " ".join(fields[:-3])
     category = fields[-3]
     winner = fields[-2]
@@ -54,3 +55,21 @@ def parse_line(line):
         "tags": tags,
         "cancelled": cancelled
     }
+
+# -----------------------------
+# Hauptprogramm
+# -----------------------------
+if __name__ == "__main__":
+    with open("scraper/raw.txt", "r", encoding="utf-8") as f:
+        lines = f.read().splitlines()
+
+    events = []
+    for line in lines:
+        parsed = parse_line(line)
+        if parsed:
+            events.append(parsed)
+
+    with open("scraper/events.json", "w", encoding="utf-8") as f:
+        json.dump(events, f, ensure_ascii=False, indent=2)
+
+    print(f"Parsed {len(events)} events.")
